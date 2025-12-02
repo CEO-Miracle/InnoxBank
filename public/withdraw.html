@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Innox Bank — Withdraw Money</title>
+    <link rel="stylesheet" href="css/withdraw.css" />
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Withdraw Money</h1>
+
+      <div class="withdraw-info">
+        <p>Enter the amount you want to withdraw:</p>
+      </div>
+
+      <div class="withdraw-box">
+        <input type="number" id="withdraw-amount" placeholder="$0.00" min="0" />
+        <button id="withdraw-btn">Withdraw</button>
+      </div>
+
+      <div id="message"></div>
+
+      <div class="current-balance">
+        <p>Current Balance: $<span id="balance">Loading...</span></p>
+      </div>
+
+      <button id="back-btn" onclick="window.location.href='index.html'">
+        Back to Home
+      </button>
+    </div>
+
+    <script type="module">
+      import { getCachedUser, fetchUser } from "./userCache.js";
+      import { auth } from "./firebase.js";
+      import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
+
+      const balanceEl = document.getElementById("balance");
+      const backBtn = document.getElementById("back-btn");
+
+      // Back button
+      backBtn.addEventListener("click", () => {
+        window.location.href = "index.html";
+      });
+
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          alert("User not logged in!");
+          window.location.href = "signin.html";
+          return;
+        }
+
+        const userData = getCachedUser() || (await fetchUser(user.uid));
+
+        if (userData) {
+          balanceEl.textContent = Number(
+            userData.balance || 0
+          ).toLocaleString();
+
+          // Withdraw logic (optional: you can handle actual withdraw button here)
+          const withdrawBtn = document.getElementById("withdraw-btn");
+          const withdrawAmountInput =
+            document.getElementById("withdraw-amount");
+          const messageEl = document.getElementById("message");
+
+          withdrawBtn.addEventListener("click", async () => {
+            const amount = Number(withdrawAmountInput.value);
+            if (amount <= 0) {
+              messageEl.textContent = "Enter a valid amount.";
+              messageEl.style.color = "red";
+              return;
+            }
+            if (amount > userData.balance) {
+              messageEl.textContent = "Insufficient balance.";
+              messageEl.style.color = "red";
+              return;
+            }
+
+            // Update balance in Firestore (optional)
+            try {
+              const newBalance = userData.balance - amount;
+              const db = (await import("./firebase.js")).db;
+              await db
+                .collection("users")
+                .doc(user.uid)
+                .update({ balance: newBalance });
+              userData.balance = newBalance; // update locally
+              balanceEl.textContent = Number(newBalance).toLocaleString();
+              messageEl.textContent = "Withdrawal successful!";
+              messageEl.style.color = "green";
+            } catch (err) {
+              console.error(err);
+              messageEl.textContent = "Failed to process withdrawal.";
+              messageEl.style.color = "red";
+            }
+          });
+        }
+      });
+    </script>
+    <footer
+      style="
+        text-align: center;
+        padding: 15px;
+        background: #f5f6fa;
+        color: #555;
+        font-size: 14px;
+        margin-top: 40px;
+      "
+    >
+      &copy; 2025 Innox Bank. All rights reserved.
+    </footer>
+  </body>
+</html>

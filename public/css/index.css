@@ -1,0 +1,365 @@
+/* Base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f7f7f7;
+  overflow-x: hidden;
+}
+
+/* Top Bar */
+.top-bar {
+  background: #1e3a8a;
+  color: #fff;
+  text-align: center;
+  padding: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  position: relative;
+}
+.menu-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 28px;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Sidebar (Laptop) */
+.sidebar {
+  display: none;
+  background: #1e3a8a;
+  color: #fff;
+  min-width: 220px;
+  padding: 20px;
+}
+.sidebar h1 {
+  margin-bottom: 20px;
+}
+.sidebar nav ul {
+  list-style: none;
+}
+.sidebar nav ul li {
+  margin: 15px 0;
+}
+.sidebar nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+.sidebar nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* LANGUAGE Dropdown */
+.language-container {
+  display: flex;
+  flex-direction: column;
+}
+.language-toggle {
+  width: 100%;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  padding: 5px 8px;
+  cursor: pointer;
+  text-align: left;
+  font-weight: bold;
+  border-radius: 5px;
+}
+.language-dropdown {
+  display: none;
+  flex-direction: column;
+  margin-top: 5px;
+}
+.language-dropdown input {
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+}
+.language-dropdown select {
+  font-size: 14px;
+  width: 100%;
+  border-radius: 5px;
+  padding: 5px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 15px;
+  overflow: hidden;
+}
+
+/* Profile Section */
+.profile-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: #fff;
+  padding: 15px 20px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+.user-intro {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.profile-pic {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid #40739e;
+  object-fit: cover;
+}
+.user-info h2 {
+  font-size: 20px;
+}
+.user-info p {
+  font-size: 16px;
+  color: #2f3640;
+}
+
+/* Quick Actions Horizontal */
+.quick-actions {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+.action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  flex-shrink: 0;
+  text-align: center;
+}
+.action-btn img {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 5px;
+  object-fit: contain;
+}
+.action-btn:nth-child(1) {
+  background: #3b82f6;
+}
+.action-btn:nth-child(2) {
+  background: #10b981;
+}
+.action-btn:nth-child(3) {
+  background: #f97316;
+}
+.action-btn:nth-child(4) {
+  background: #6366f1;
+}
+
+/* Income / Expenses */
+.income-expenses {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+  flex-wrap: wrap;
+}
+.card {
+  flex: 1;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  color: #fff;
+}
+.income {
+  background: #16a34a;
+}
+.expenses {
+  background: #dc2626;
+}
+
+/* Transactions Table */
+.transactions {
+  margin: 10px 0;
+}
+.transactions table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+.transactions th,
+.transactions td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+.transactions th {
+  background: #f0f0f0;
+  font-weight: 600;
+}
+.success {
+  color: #16a34a;
+  font-weight: bold;
+}
+.failed {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+/* Bottom Navigation (Mobile) */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  background: #1e3a8a;
+  padding: 10px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+.bottom-nav .nav-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Side Menu Drawer */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 250px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s;
+  padding: 20px;
+  z-index: 101;
+}
+.side-menu.active {
+  right: 0;
+}
+.side-menu ul {
+  list-style: none;
+}
+.side-menu ul li {
+  margin: 15px 0;
+}
+.side-menu ul li a {
+  text-decoration: none;
+  color: #1e3a8a;
+  font-weight: 500;
+}
+.close-menu {
+  margin-top: 20px;
+  background: #1e3a8a;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Eye button */
+.eye-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 8px;
+}
+.eye-btn:hover {
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media screen and (min-width: 768px) {
+  body {
+    flex-direction: row;
+  }
+  .sidebar {
+    display: block;
+    height: 100vh;
+  }
+  .main-content {
+    flex: 1;
+    padding: 20px;
+  }
+  .bottom-nav,
+  .side-menu {
+    display: none;
+  }
+}
+
+/* Active link highlight */
+.sidebar nav ul li a.active,
+.bottom-nav .nav-btn.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+.language-panel-container {
+  position: relative;
+  display: inline-block;
+}
+.language-panel {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 10;
+}
+.language-panel.open {
+  display: block;
+}
+.language-list li.selected {
+  background: #007bff;
+  color: white;
+}
+.language-list li {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.language-list li:hover {
+  background: #f0f0f0;
+}
+#languageSearch {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+  .language-panel {
+    width: 100vw;
+    left: 0;
+  }
+}

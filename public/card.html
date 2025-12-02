@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Card - Innox Bank</title>
+    <link rel="stylesheet" href="css/card.css" />
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+  </head>
+
+  <body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h1>SkyBank</h1>
+      <nav>
+        <ul>
+          <li><a href="dashboard.html">Dashboard</a></li>
+          <li><a href="send-money.html">Send Money</a></li>
+          <li><a href="my-card.html" class="active">My Card</a></li>
+          <li><a href="profile.html">Profile</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <h1>SkyBank</h1>
+      </header>
+
+      <!-- My Card Section -->
+      <section class="my-card">
+        <div class="card-display">
+          <p class="card-number">**** **** **** 1234</p>
+          <p class="card-holder" id="cardHolder">Loading...</p>
+          <p class="expiry">Exp: 12/25</p>
+          <button id="toggleBalance" class="eye-btn">👁️</button>
+        </div>
+
+        <div class="card-balance">
+          <p>Available Balance: <span id="cardBalance">Loading...</span></p>
+        </div>
+
+        <div class="card-actions">
+          <button class="action-btn">Block Card</button>
+          <button class="action-btn">Set Limit</button>
+          <button
+            class="action-btn"
+            onclick="window.location.href='t-history.html'"
+          >
+            View Transactions
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <button class="nav-btn" onclick="window.location.href='dashboard.html'">
+        <a href="index.html">Home</a>
+      </button>
+      <button
+        class="nav-btn active"
+        onclick="window.location.href='my-card.html'"
+      >
+        <a href="card.html">My Card</a>
+      </button>
+      <button class="nav-btn" onclick="window.location.href='settings.html'">
+        <a href="setting.html">Settings</a>
+      </button>
+      <button class="nav-btn" onclick="window.location.href='profile.html'">
+        <a href="user.profile.html">Profile</a>
+      </button>
+    </nav>
+
+    <!-- Firebase + JS -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-app.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-auth.js";
+      import {
+        getFirestore,
+        doc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/10.6.1/firebase-firestore.js";
+
+      // 🔥 Firebase Config
+      const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      // Toggle Sidebar Menu
+      function toggleMenu() {
+        document.querySelector(".sidebar").classList.toggle("active");
+      }
+
+      // Toggle Balance Visibility
+      const toggleBalanceBtn = document.getElementById("toggleBalance");
+      const cardBalance = document.getElementById("cardBalance");
+      let balanceVisible = true;
+
+      toggleBalanceBtn.addEventListener("click", () => {
+        if (balanceVisible) {
+          cardBalance.textContent = "*****";
+          balanceVisible = false;
+        } else {
+          loadUserData();
+          balanceVisible = true;
+        }
+      });
+
+      // Load User Data
+      async function loadUserData(user) {
+        if (!user) return;
+
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+          const data = userSnap.data();
+          document.getElementById("cardHolder").textContent =
+            data.name || "Unnamed User";
+          document.getElementById("cardBalance").textContent =
+            data.balance !== undefined
+              ? `$${Number(data.balance).toLocaleString()}`
+              : "$0.00";
+        } else {
+          document.getElementById("cardHolder").textContent = "Unknown User";
+          document.getElementById("cardBalance").textContent = "$0.00";
+        }
+      }
+
+      // Check Authentication
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          loadUserData(user);
+        } else {
+          window.location.href = "signin.html";
+        }
+      });
+    </script>
+  </body>
+</html>

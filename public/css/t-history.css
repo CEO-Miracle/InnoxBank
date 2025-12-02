@@ -1,0 +1,117 @@
+/* General body styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f6fa;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container for the page */
+.container {
+  max-width: 900px;
+  width: 95%;
+  margin: 40px auto;
+  background: white;
+  padding: 25px 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* 🔥 Ensures no breaking on extra small screens */
+}
+
+/* Page heading */
+h1 {
+  text-align: center;
+  color: #2f3640;
+  margin-bottom: 25px;
+}
+
+/* Transaction table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* 🔥 Makes all columns auto-fit perfectly */
+}
+
+/* Headings & cells */
+table th,
+table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word; /* 🔥 Allows long content to wrap */
+  white-space: normal; /* 🔥 Prevents stretching table */
+}
+
+/* Table heading */
+table th {
+  background-color: #40739e;
+  color: white;
+  font-weight: normal;
+}
+
+/* Hover effect */
+table tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+/* Status colors */
+.success {
+  color: #16a34a;
+  font-weight: bold;
+}
+
+.failed {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+/* Back button styling */
+button {
+  display: block;
+  margin: 25px auto 0 auto;
+  padding: 10px 25px;
+  background-color: #40739e;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #487eb0;
+}
+
+/* 🔥 Perfect responsive fix for phones */
+@media screen and (max-width: 600px) {
+  .container {
+    padding: 18px 15px;
+  }
+
+  table th,
+  table td {
+    padding: 8px 5px;
+    font-size: 13px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  table {
+    table-layout: fixed; /* Ensures perfect square layout on mobile */
+  }
+}
+
+/* Amount colors */
+.amount-income {
+  color: #16a34a;
+  font-weight: bold;
+}
+
+.amount-expense {
+  color: #dc2626;
+  font-weight: bold;
+}

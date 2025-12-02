@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Innox Bank — Deposit Money</title>
+    <link rel="stylesheet" href="css/deposit.css" />
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Deposit Money</h1>
+
+      <div class="deposit-info">
+        <p>Enter the amount you want to deposit:</p>
+      </div>
+
+      <div class="deposit-box">
+        <input type="number" id="deposit-amount" placeholder="$0.00" min="0" />
+        <button id="deposit-btn">Deposit</button>
+      </div>
+
+      <div id="message"></div>
+
+      <button onclick="goBack()"><a href="index.html">To Home</button></a> 
+    </div>
+    <script type="module" src="js/deposit.js"></script>
+    <footer style="text-align:center; padding:15px; background:#f5f6fa; color:#555; font-size:14px; margin-top:40px;">
+  &copy; 2025 Innox Bank. All rights reserved.
+</footer>
+  </body>
+</html>

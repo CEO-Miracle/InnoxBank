@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account Blocked</title>
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+    <style>
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f44336;
+        font-family: Arial, sans-serif;
+        color: white;
+        text-align: center;
+      }
+      .message-box {
+        max-width: 600px;
+        padding: 40px;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      }
+      h1 {
+        font-size: 32px;
+        margin-bottom: 20px;
+      }
+      p {
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="message-box">
+      <h1>❌ Account Permanently Banned</h1>
+      <p>
+        Your account has been permanently banned.<br />
+        Please contact Innox Bank or visit any of our branches with your
+        details.
+      </p>
+    </div>
+
+    <script>
+      // Disable back button
+      history.pushState(null, null, location.href);
+      window.onpopstate = function () {
+        history.go(1);
+      };
+      // Disable right-click
+      document.addEventListener("contextmenu", (e) => e.preventDefault());
+      // Disable keyboard shortcuts (backspace, etc.)
+      document.addEventListener("keydown", (e) => {
+        if (
+          e.key === "Backspace" ||
+          e.key === "Escape" ||
+          e.ctrlKey ||
+          e.metaKey
+        ) {
+          e.preventDefault();
+        }
+      });
+    </script>
+  </body>
+</html>

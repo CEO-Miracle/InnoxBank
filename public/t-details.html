@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+    <title data-i18n="transaction.title">Transaction Receipt</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f5f6fa;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        max-width: 750px;
+        margin: 40px auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 14px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      h1,
+      .title {
+        text-align: center;
+        color: #2f3640;
+      }
+
+      .title {
+        margin-bottom: 20px;
+        font-size: 18px;
+      }
+
+      .badge {
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      .success {
+        background: #d1fae5;
+        color: #16a34a;
+      }
+
+      .failed {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+
+      .amount-display {
+        text-align: center;
+        font-size: 26px;
+        font-weight: bold;
+        margin-bottom: 25px;
+      }
+
+      .info-section {
+        margin-top: 20px;
+      }
+
+      .section-title {
+        font-weight: bold;
+        font-size: 17px;
+        margin-bottom: 10px;
+      }
+
+      .row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #ececec;
+      }
+
+      .label {
+        font-weight: 600;
+        color: #4b4b4b;
+      }
+
+      .value {
+        color: #2f3640;
+        font-weight: 500;
+        text-align: right;
+      }
+
+      button {
+        display: block;
+        margin: 30px auto 0;
+        padding: 12px 28px;
+        background: #40739e;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 data-i18n="transaction.title">Transaction Receipt</h1>
+      <div id="main-title" class="title"></div>
+      <div id="status-badge" class="badge"></div>
+      <div id="amount-display" class="amount-display"></div>
+
+      <!-- SENDER SECTION -->
+      <div class="info-section">
+        <p class="section-title" data-i18n="transaction.sender_details">
+          Sender Details
+        </p>
+        <div id="sender-box"></div>
+      </div>
+
+      <!-- RECEIVER SECTION -->
+      <div class="info-section">
+        <p class="section-title" data-i18n="transaction.receiver_details">
+          Receiver Details
+        </p>
+        <div id="receiver-box"></div>
+      </div>
+
+      <!-- META SECTION -->
+      <div class="info-section">
+        <p class="section-title" data-i18n="transaction.transaction_info">
+          Transaction Information
+        </p>
+        <div id="meta-box"></div>
+      </div>
+
+      <button id="back-btn" data-i18n="transaction.back_button">
+        Back to History
+      </button>
+    </div>
+
+    <script type="module">
+      const title = document.getElementById("main-title");
+      const statusBadge = document.getElementById("status-badge");
+      const amountDisplay = document.getElementById("amount-display");
+
+      const senderBox = document.getElementById("sender-box");
+      const receiverBox = document.getElementById("receiver-box");
+      const metaBox = document.getElementById("meta-box");
+
+      document.getElementById("back-btn").onclick = () => {
+        window.location.href = "t-history.html";
+      };
+
+      function addRow(label, value) {
+        return `
+          <div class="row">
+            <div class="label" data-i18n-text="${label}">${label}</div>
+            <div class="value">${value}</div>
+          </div>
+        `;
+      }
+
+      function loadDetails() {
+        const stored = localStorage.getItem("transaction-details");
+        if (!stored) return;
+
+        const tx = JSON.parse(stored);
+
+        // Amount formatting
+        const amountFormatted =
+          tx.type === "Income"
+            ? `+$${tx.amount.toLocaleString()}`
+            : `-$${tx.amount.toLocaleString()}`;
+        amountDisplay.textContent = amountFormatted;
+
+        // Main title
+        title.textContent = `Transfer from ${tx.sender} to ${tx.receiver}`;
+
+        // Status badge
+        statusBadge.classList.add(
+          tx.status === "Success" ? "success" : "failed"
+        );
+        statusBadge.textContent = tx.status;
+
+        // Sender info
+        senderBox.innerHTML = `
+          ${addRow("Bank", tx.senderBank || "Innox Bank")}
+          ${addRow("Country", tx.senderCountry || "USA")}
+          ${addRow("Account Number", tx.senderAccount || "0030873281")}
+        `;
+
+        // Receiver info
+        receiverBox.innerHTML = `
+          ${addRow("Name", tx.receiver)}
+          ${addRow("Bank", tx.recipientBank)}
+          ${addRow("Account Number", tx.recipientAccount)}
+        `;
+
+        // Meta info
+        metaBox.innerHTML = `
+          ${addRow("Transaction ID", tx.id)}
+          ${addRow("Type", tx.type || "Transfer")}
+          ${addRow("Date & Time", tx.date)}
+          ${addRow("Note", tx.note || "-")}
+        `;
+      }
+
+      loadDetails();
+    </script>
+  </body>
+</html>

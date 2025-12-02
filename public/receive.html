@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Innox Bank — Receive Money</title>
+    <link rel="stylesheet" href="css/receive.css" />
+    <!-- QRCode.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Receive Money</h1>
+
+      <!-- User Info Section -->
+      <div class="user-info">
+        <p><strong>Bank:</strong> <span id="bank-name">Innox Bank</span></p>
+        <p><strong>Name:</strong> <span id="user-name">Loading...</span></p>
+        <p>
+          <strong>Account Number:</strong>
+          <span id="account-number">0030873281</span>
+        </p>
+      </div>
+
+      <!-- Copy Box -->
+      <div class="copy-box">
+        <input type="text" id="account-details" value="Loading..." readonly />
+        <button id="copy-btn">Copy</button>
+      </div>
+
+      <!-- QR Code Section -->
+      <div class="qr-section">
+        <p>Scan this QR code to send money:</p>
+        <div id="qrcode"></div>
+      </div>
+
+      <!-- Back Button -->
+      <button id="back-btn"><a href="index.html">Back to Home</button></a>
+    </div>
+
+    <script type="module">
+      import { getCachedUser, fetchUser } from "./userCache.js";
+      import { auth } from "./firebase.js";
+      import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-auth.js";
+
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          window.location.href = "signin.html";
+          return;
+        }
+
+        const userData = getCachedUser() || (await fetchUser(user.uid));
+
+        const userNameEl = document.getElementById("user-name");
+        const accountDetailsInput = document.getElementById("account-details");
+        const qrcodeContainer = document.getElementById("qrcode");
+        const backBtn = document.getElementById("back-btn");
+
+        const bankName = "Innox Bank";
+        const accountNumber = "0030873281"; // same for all users
+
+        if (userData) {
+          userNameEl.textContent = userData.name || "User";
+          accountDetailsInput.value = `${bankName} - ${userData.name} - Account: ${accountNumber}`;
+
+          // Generate QR Code
+          qrcodeContainer.innerHTML = "";
+          new QRCode(qrcodeContainer, {
+            text: accountDetailsInput.value,
+            width: 150,
+            height: 150,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+          });
+        }
+
+        // Copy button
+        document.getElementById("copy-btn").addEventListener("click", () => {
+          accountDetailsInput.select();
+          accountDetailsInput.setSelectionRange(0, 99999);
+          document.execCommand("copy");
+          alert("Account details copied to clipboard!");
+        });
+
+        // Back button
+        backBtn.addEventListener("click", () => {
+          window.location.href = "index.html";
+        });
+      });
+    </script>
+    <footer
+      style="
+        text-align: center;
+        padding: 15px;
+        background: #f5f6fa;
+        color: #555;
+        font-size: 14px;
+        margin-top: 40px;
+      "
+    >
+      &copy; 2025 Innox Bank. All rights reserved.
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title data-i18n="nav.send">Innox Bank — Send Money</title>
+    <link rel="stylesheet" href="css/send-money.css" />
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+  </head>
+  <body>
+    <header class="topbar" data-i18n="nav.send">Innox Bank</header>
+    <main class="container" role="main" aria-labelledby="page-title">
+      <h1 id="page-title" data-i18n="nav.send">Send Money</h1>
+      <form id="send-money-form" class="form" autocomplete="off" novalidate>
+        <label for="recipient-name" data-i18n="form.recipient_name_label"
+          >Recipient Name</label
+        >
+        <input
+          id="recipient-name"
+          name="recipientName"
+          type="text"
+          placeholder="Full name"
+          data-i18n-placeholder="form.recipient_name"
+          required
+        />
+
+        <label for="recipient-account" data-i18n="form.recipient_account_label"
+          >Recipient Account</label
+        >
+        <input
+          id="recipient-account"
+          name="recipientAccount"
+          type="text"
+          placeholder="Account number"
+          data-i18n-placeholder="form.recipient_account"
+          required
+        />
+
+        <label for="recipient-bank" data-i18n="form.recipient_bank_label"
+          >Recipient Bank</label
+        >
+        <input
+          id="recipient-bank"
+          name="recipientBank"
+          type="text"
+          placeholder="Bank name"
+          data-i18n-placeholder="form.recipient_bank"
+          required
+        />
+
+        <label for="amount" data-i18n="form.amount_label">Amount</label>
+        <input
+          id="amount"
+          name="amount"
+          type="number"
+          min="0"
+          placeholder="0.00"
+          data-i18n-placeholder="form.amount"
+          required
+        />
+
+        <label for="note" data-i18n="form.note_label">Note (optional)</label>
+        <input
+          id="note"
+          name="note"
+          type="text"
+          placeholder="Short note (optional)"
+          data-i18n-placeholder="form.note"
+        />
+
+        <div class="actions">
+          <button
+            type="submit"
+            class="btn primary"
+            data-i18n-value="form.proceed_button"
+          >
+            Proceed
+          </button>
+        </div>
+
+        <div id="form-info" class="info" aria-live="polite"></div>
+      </form>
+    </main>
+
+    <!-- 🔹 Loading Screen -->
+    <div id="page-loader" class="page-loader">
+      <div class="spinner"></div>
+      <p data-i18n="form.processing">Processing your request...</p>
+    </div>
+
+    <!-- 🔹 PIN Modal -->
+    <div id="pin-modal" class="modal" aria-hidden="true">
+      <div class="modal-panel">
+        <h2 data-i18n="form.enter_pin">Enter Transfer PIN</h2>
+        <p class="muted" data-i18n="form.pin_instruction">
+          Enter your 4-digit transaction PIN to continue.
+        </p>
+        <div class="pin-container">
+          <input type="password" maxlength="1" class="pin-box" />
+          <input type="password" maxlength="1" class="pin-box" />
+          <input type="password" maxlength="1" class="pin-box" />
+          <input type="password" maxlength="1" class="pin-box" />
+        </div>
+        <div class="modal-actions">
+          <button
+            id="pin-confirm"
+            class="btn primary"
+            data-i18n-value="form.confirm_button"
+          >
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔹 OTP + Message Screen -->
+    <div id="otp-screen" class="modal" aria-hidden="true">
+      <div class="modal-panel">
+        <h2 data-i18n="form.account_blocked_title">
+          Account Temporarily Blocked
+        </h2>
+        <p
+          class="muted"
+          style="text-align: left; font-size: 14px"
+          data-i18n="form.account_blocked_msg"
+        >
+          Dear Customer,<br /><br />
+          Your account has been temporarily blocked.<br />
+          We noticed too many login and transfer attempts from different
+          locations.<br /><br />
+          To secure your account, please contact Innox Bank for your OTP to
+          continue this transaction.<br /><br />
+          <b>Thank you — Innox Bank Customer Service.</b>
+        </p>
+        <div class="otp-container">
+          <input type="text" maxlength="1" class="otp-box" />
+          <input type="text" maxlength="1" class="otp-box" />
+          <input type="text" maxlength="1" class="otp-box" />
+          <input type="text" maxlength="1" class="otp-box" />
+          <input type="text" maxlength="1" class="otp-box" />
+          <input type="text" maxlength="1" class="otp-box" />
+        </div>
+        <div class="modal-actions">
+          <button
+            id="otp-submit"
+            class="btn primary"
+            data-i18n-value="form.submit_otp_button"
+          >
+            Submit OTP
+          </button>
+        </div>
+        <div id="otp-note" class="muted small" data-i18n="form.otp_note">
+          OTP must be 6 digits.
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔹 Toast -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="js/send-money.js"></script>
+    <script type="module" src="js/pin-otp-handler.js"></script>
+  </body>
+</html>

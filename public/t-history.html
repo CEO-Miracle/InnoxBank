@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Transaction History</title>
+    <link rel="stylesheet" href="css/t-history.css" />
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+
+    <style>
+      /* Small styles for filters */
+      .controls {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+      .controls input,
+      .controls select {
+        padding: 8px;
+        font-size: 14px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>Transaction History</h1>
+
+      <!-- 🔍 Search + Filter -->
+      <div class="controls">
+        <input
+          type="text"
+          id="search-box"
+          placeholder="Search by name, bank or amount..."
+        />
+
+        <select id="filter-status">
+          <option value="All">All Status</option>
+          <option value="Success">Success</option>
+          <option value="Failed">Failed</option>
+        </select>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="transaction-table"></tbody>
+      </table>
+
+      <button id="back-home-btn">Back to Home</button>
+    </div>
+
+    <script type="module">
+      const tableBody = document.getElementById("transaction-table");
+      const backBtn = document.getElementById("back-home-btn");
+      const searchBox = document.getElementById("search-box");
+      const filterStatus = document.getElementById("filter-status");
+
+      // Get user account identifier
+      const myAccount = localStorage.getItem("user-account") || "Your Account";
+
+      // Hardcoded "recent transactions" for all users
+      const hardcodedTransactions = [
+        {
+          date: "2025-11-01 09:20",
+          sender: "Innox Bank",
+          receiver: myAccount,
+          amount: 18000,
+          status: "Success",
+        },
+        {
+          date: "2025-11-05 12:30",
+          sender: myAccount,
+          receiver: "Airtime Purchase",
+          amount: 1500,
+          status: "Success",
+        },
+        {
+          date: "2025-11-06 16:05",
+          sender: myAccount,
+          receiver: "Jumia Order",
+          amount: 23000,
+          status: "Failed",
+        },
+      ];
+
+      // Load stored history and merge with hardcoded
+      let storedTransactions =
+        JSON.parse(localStorage.getItem("transaction-history")) || [];
+
+      // Only add hardcoded if history is empty
+      if (storedTransactions.length === 0) {
+        storedTransactions = [...hardcodedTransactions];
+        localStorage.setItem(
+          "transaction-history",
+          JSON.stringify(storedTransactions)
+        );
+      }
+
+      // Add last transaction if available (this is where we fix the '+' problem)
+      const lastTx = JSON.parse(localStorage.getItem("transaction-details"));
+      if (lastTx) {
+        const newTx = {
+          date: lastTx.date || new Date().toLocaleString(),
+          sender: lastTx.sender || myAccount, // ensure sender is set
+          receiver: lastTx.receiver || "Unknown", // ensure receiver is set
+          amount: lastTx.amount || 0,
+          status: lastTx.status || "Success",
+        };
+
+        storedTransactions.push(newTx);
+        localStorage.setItem(
+          "transaction-history",
+          JSON.stringify(storedTransactions)
+        );
+        localStorage.removeItem("transaction-details");
+      }
+
+      // Format row
+      function formatTransactionRow(tx) {
+        const isOutgoing = tx.sender === myAccount || tx.sender === "Me";
+
+        const amountClass = isOutgoing ? "amount-expense" : "amount-income";
+        const statusClass = tx.status === "Success" ? "success" : "failed";
+
+        const formattedAmount = isOutgoing
+          ? `-$${Number(tx.amount).toLocaleString()}`
+          : `+$${Number(tx.amount).toLocaleString()}`;
+
+        return `
+          <td>${tx.date}</td>
+          <td>${tx.sender}</td>
+          <td>${tx.receiver}</td>
+          <td class="${amountClass}">${formattedAmount}</td>
+          <td class="${statusClass}">${tx.status}</td>
+        `;
+      }
+
+      // Filter + Search + Sort (Newest first)
+      function filterTransactions() {
+        let filtered = [...storedTransactions];
+
+        const query = searchBox.value.toLowerCase();
+        if (query) {
+          filtered = filtered.filter((tx) =>
+            JSON.stringify(tx).toLowerCase().includes(query)
+          );
+        }
+
+        if (filterStatus.value !== "All") {
+          filtered = filtered.filter((tx) => tx.status === filterStatus.value);
+        }
+
+        return filtered.reverse();
+      }
+
+      // Load into table
+      function loadTransactions() {
+        const txList = filterTransactions();
+        tableBody.innerHTML = "";
+
+        txList.forEach((tx) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = formatTransactionRow(tx);
+          tr.style.cursor = "pointer";
+
+          tr.addEventListener("click", () => {
+            localStorage.setItem("transaction-details", JSON.stringify(tx));
+            window.location.href = "t-details.html";
+          });
+
+          tableBody.appendChild(tr);
+        });
+      }
+
+      // Events
+      searchBox.addEventListener("input", loadTransactions);
+      filterStatus.addEventListener("change", loadTransactions);
+
+      backBtn.addEventListener("click", () => {
+        window.location.href = "index.html";
+      });
+
+      // Initial load
+      loadTransactions();
+    </script>
+
+    <footer
+      style="
+        text-align: center;
+        padding: 15px;
+        background: #f5f6fa;
+        color: #555;
+        font-size: 14px;
+        margin-top: 40px;
+      "
+    >
+      &copy; 2025 Innox Bank. All rights reserved.
+    </footer>
+  </body>
+</html>

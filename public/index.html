@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title data-i18n="nav.dashboard">Innox Bank Home</title>
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <h1 data-i18n="nav.dashboard">Innox Bank</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+          <li><a href="send-money.html" data-i18n="nav.send">Send Money</a></li>
+          <li>
+            <a href="user.profile.html" data-i18n="nav.profile">Profile</a>
+          </li>
+          <li><a href="setting.html" data-i18n="nav.settings">Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" style="display: none" id="mainContent">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+        <h1 data-i18n="nav.dashboard">Innox Bank</h1>
+
+        <!-- Language Selector Panel -->
+        <div class="language-panel-container">
+          <button id="langButton" aria-haspopup="listbox" aria-expanded="false">
+            <span id="langButtonLabel">English</span> ▼
+          </button>
+          <div id="langPanel" class="language-panel" aria-hidden="true">
+            <input
+              type="text"
+              id="languageSearch"
+              placeholder="Search language..."
+            />
+            <ul id="languageList" class="language-list" role="listbox">
+              <!-- JS populates this list from i18n.js -->
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      <!-- Profile Section -->
+      <section class="profile-section">
+        <div class="user-intro">
+          <img
+            id="profile-image"
+            src="images/avatar.svg"
+            alt="Profile Picture"
+            class="profile-pic"
+          />
+
+          <div class="user-info">
+            <h2 id="user-name">User</h2>
+            <p>
+              <span data-i18n="profile.balance_label">Balance:</span>
+              <strong
+                id="user-balance"
+                data-i18n-value="profile.balance_default"
+                >$0.00</strong
+              >
+              <button
+                id="toggle-balance"
+                class="eye-btn"
+                title="Show/Hide Balance"
+                data-i18n-value="profile.toggle_balance_title"
+              >
+                👁️
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="transaction-history">
+          <button
+            class="t-history-btn"
+            onclick="openTransactions()"
+            data-i18n="transactions.recent"
+          >
+            Transaction History
+          </button>
+        </div>
+      </section>
+
+      <!-- Quick Actions -->
+      <section class="quick-actions">
+        <a href="send-money.html" class="action-btn">
+          <img src="images/send.png" alt="Send Money" class="action-icon" />
+          <span data-i18n="quick.send">Send</span>
+        </a>
+
+        <a href="receive.html" class="action-btn">
+          <img
+            src="images/receive.png"
+            alt="Receive Money"
+            class="action-icon"
+          />
+          <span data-i18n="quick.receive">Receive</span>
+        </a>
+
+        <a href="deposit.html" class="action-btn">
+          <img src="images/deposit.png" alt="Deposit" class="action-icon" />
+          <span data-i18n="quick.deposit">Deposit</span>
+        </a>
+
+        <a href="withdraw.html" class="action-btn">
+          <img
+            src="images/withdraw.png.png"
+            alt="Withdraw"
+            class="action-icon"
+          />
+          <span data-i18n="quick.withdraw">Withdraw</span>
+        </a>
+      </section>
+
+      <!-- Income / Expenses -->
+      <section class="income-expenses">
+        <div class="card income">
+          <h3 data-i18n="income.title">Income</h3>
+          <p data-i18n-value="income.amount">$98,593</p>
+        </div>
+
+        <div class="card expenses">
+          <h3 data-i18n="expenses.title">Expenses</h3>
+          <p data-i18n-value="expenses.amount">$14,054</p>
+        </div>
+      </section>
+
+      <!-- Recent Transactions -->
+      <section class="transactions">
+        <h2 data-i18n="transactions.recent">Recent Transactions</h2>
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="table.date">Date</th>
+              <th data-i18n="table.description">Description</th>
+              <th data-i18n="table.amount">Amount</th>
+              <th data-i18n="table.status">Status</th>
+            </tr>
+          </thead>
+
+          <tbody id="transactionsTable">
+            <!-- JS Injects Transactions -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation (Phone) -->
+    <nav class="bottom-nav">
+      <button
+        class="nav-btn"
+        onclick="window.location.href='index.html'"
+        data-i18n="nav.home"
+      >
+        Home
+      </button>
+
+      <button class="nav-btn" onclick="window.location.href='card.html'">
+        My Card
+      </button>
+
+      <button
+        class="nav-btn"
+        onclick="window.location.href='setting.html'"
+        data-i18n="nav.settings"
+      >
+        Settings
+      </button>
+
+      <button
+        class="nav-btn"
+        onclick="window.location.href='user.profile.html'"
+        data-i18n="nav.profile"
+      >
+        Profile
+      </button>
+    </nav>
+
+    <!-- Side Menu Drawer (Phone) -->
+    <aside class="side-menu">
+      <ul>
+        <li><a href="index.html" data-i18n="menu.dashboard">Dashboard</a></li>
+        <li>
+          <a href="send-money.html" data-i18n="menu.sendMoney">Send Money</a>
+        </li>
+        <li><a href="deposit.html" data-i18n="menu.deposit">Deposit</a></li>
+        <li><a href="withdraw.html" data-i18n="menu.withdraw">Withdraw</a></li>
+        <li>
+          <a href="user.profile.html" data-i18n="menu.profile">Profile</a>
+        </li>
+      </ul>
+
+      <button class="close-menu" data-i18n="menu.close">Close</button>
+    </aside>
+    <!-- Page Scripts -->
+    <script src="js/i18n.js" defer></script>
+    <script type="module" src="js/firebase.js"></script>
+    <script type="module" src="js/index.js"></script>
+
+    <script>
+      // Transaction button
+      function openTransactions() {
+        window.location.href = "t-history.html";
+      }
+
+      // Side menu toggle (mobile)
+      function toggleMenu() {
+        document.querySelector(".side-menu").classList.toggle("active");
+      }
+    </script>
+  </body>
+</html>

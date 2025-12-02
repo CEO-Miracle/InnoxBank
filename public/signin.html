@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Innox Bank — Login</title>
+    <link rel="icon" href="images/icon.png" type="image/x-icon" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #f7f9fc, #e6f0ff);
+        padding: 20px;
+      }
+      .card {
+        width: 100%;
+        max-width: 420px;
+        background: #fff;
+        border-radius: 14px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      }
+      h1 {
+        text-align: center;
+        color: #123;
+        margin-bottom: 18px;
+        font-size: 20px;
+      }
+      label {
+        display: block;
+        margin-top: 12px;
+        color: #444;
+        font-weight: 600;
+        font-size: 13px;
+      }
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        padding: 12px 14px;
+        margin-top: 6px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        font-size: 15px;
+      }
+      input:focus {
+        outline: none;
+        border-color: #1e90ff;
+        box-shadow: 0 0 8px rgba(30, 144, 255, 0.18);
+      }
+      .password-wrapper {
+        position: relative;
+      }
+      .toggle-password {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #1e90ff;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      button[type="submit"] {
+        width: 100%;
+        padding: 13px;
+        margin-top: 18px;
+        border-radius: 999px;
+        border: none;
+        background: linear-gradient(90deg, #1e90ff, #3aa0ff);
+        color: #fff;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      p.note {
+        text-align: center;
+        margin-top: 14px;
+        color: #666;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card" role="main">
+      <h1>Innox Bank — Login</h1>
+
+      <form id="login-form" autocomplete="off" novalidate>
+        <label for="email">Email</label>
+        <input id="email" type="text" placeholder="Enter email" required />
+
+        <label for="password">Password</label>
+        <div class="password-wrapper">
+          <input
+            id="password"
+            type="password"
+            placeholder="Enter password"
+            required
+          />
+          <button type="button" class="toggle-password">Show</button>
+        </div>
+
+        <button type="submit">Login</button>
+      </form>
+
+      <p class="note">Don’t have an account? Create one</p>
+    </main>
+
+    <!-- ✅ Add these scripts at the end -->
+    <script type="module" src="js/firebase.js"></script>
+    <script type="module" src="js/signin.js"></script>
+  </body>
+</html>
