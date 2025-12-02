@@ -28,13 +28,13 @@ InnoxBank is a full-featured web banking application built with HTML, CSS, and J
 2. Open `index.html` in your browser  
 3. Log in or register a new account to explore all features  
 
-## Live Demo
+## Visit App
 
-Try the live app here:  
+Visit App:  
 [InnoxBank Live Demo](https://sky-bank-omega.vercel.app/)
 
-## Social / Updates
+## Social media / Live demo
 
-Follow updates about InnoxBank and related projects:  
+Watch how it works:  
 [Twitter / X Post](https://x.com/mitalixgroup/status/1995031168929190014?s=20)
 
