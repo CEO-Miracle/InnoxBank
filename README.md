@@ -1,7 +1,6 @@
 # InnoxBank
-InnoxBank is a web banking app built with HTML, CSS, and JavaScript. Admins can manage user accounts, while users can log in, send/receive money, view transactions, and manage finances 
-securely. Built with a clean, responsive UI and Firebase integration.
 
+InnoxBank is a full-featured web banking application built with HTML, CSS, and JavaScript. Admins can manage user accounts, while users can log in, send/receive money, view transactions, and manage finances securely. Designed with a clean, responsive UI and integrated with Firebase for authentication and database management.
 
 ## Features
 
@@ -10,4 +9,32 @@ securely. Built with a clean, responsive UI and Firebase integration.
 - Send and receive money between accounts  
 - View transaction history  
 - Responsive and clean user interface  
-- Frontend integration with Firebase for authentication and database management
+- Frontend integration with Firebase for authentication and database management  
+
+## Tech Stack
+
+- HTML  
+- CSS  
+- JavaScript  
+- Firebase (Authentication & Firestore Database)
+
+## Screenshots
+
+![InnoxBank Screenshot](https://i.ibb.co/84jxnrFz/1000716146.jpg)
+
+## How to Run
+
+1. Clone the repository or download the project files  
+2. Open `index.html` in your browser  
+3. Log in or register a new account to explore all features  
+
+## Live Demo
+
+Try the live app here:  
+[InnoxBank Live Demo](https://sky-bank-omega.vercel.app/)
+
+## Social / Updates
+
+Follow updates about InnoxBank and related projects:  
+[Twitter / X Post](https://x.com/mitalixgroup/status/1995031168929190014?s=20)
+
